@@ -1,5 +1,5 @@
-// arraydeque ver.
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
@@ -17,17 +17,15 @@ public class Main {
 		int i;
 		int j;
 		int d;
-		int time;
 		
-		fish(int i, int j, int d, int t){
+		fish(int i, int j, int d){
 			this.i=i;
 			this.j=j;
 			this.d=d;
-			this.time=t;
 		}
 	}
 	
-	static Deque<fish>[][] map;
+	static ArrayList<fish>[][] map, copy;
 	static boolean[][] v;
 	
 	public static void main(String[] args) throws Exception {
@@ -38,12 +36,10 @@ public class Main {
 		M = Integer.parseInt(st.nextToken()); // 물고기 수
 		S = Integer.parseInt(st.nextToken()); // 마법 횟수
 		
-		map = new ArrayDeque[4][4];
-		Deque<fish>[][] copy = new ArrayDeque[4][4];
+		map = new ArrayList[4][4];
 		for(int i=0; i<4; i++) {
 			for(int j=0; j<4; j++) {
-				map[i][j] = new ArrayDeque<fish>();
-				copy[i][j] = new ArrayDeque<>();
+				map[i][j] = new ArrayList<fish>();
 			}
 		}
 		
@@ -56,7 +52,7 @@ public class Main {
 			int fj = Integer.parseInt(st.nextToken())-1;
 			int fd = Integer.parseInt(st.nextToken())-1;
 			
-			fish f = new fish(fi,fj,fd,0);
+			fish f = new fish(fi,fj,fd);
 			map[fi][fj].add(f);
 		}
 		
@@ -67,43 +63,31 @@ public class Main {
 		for(int s=1; s<=S; s++) {
 			
 			// 복제마법 시전
+			copy = new ArrayList[4][4];
 			for(int i=0; i<4; i++) {
 				for(int j=0; j<4; j++) {
-					for(fish f:map[i][j]) {
-						copy[i][j].add(new fish(f.i, f.j, f.d, f.time));
-					}
+					copy[i][j] = new ArrayList<fish>();
 				}
 			}
-			
 			
 			// 모든 물고기 이동
 			for(int i=0; i<4; i++) {
 				for(int j=0; j<4; j++) {
-					int mapSize = map[i][j].size();
-					for(int ms=0; ms<mapSize; ms++){
-						fish f = map[i][j].poll();
-						if(f.time==s) {
-							map[i][j].add(f);
-							continue;
-						}
-						boolean added=false;
+					for(fish f : map[i][j]) {
+						boolean moved = false;
 						for(int d=0; d<8; d++) {
 							int nd = (f.d-d+8)%8;
 							int ni = f.i+di[nd];
 							int nj = f.j+dj[nd];
 							// 격자 안 + 상어가 없는 칸 + 물고기 냄새가 없는 칸
 							if(0<=ni&&ni<4 && 0<=nj&&nj<4 && !(ni==si && nj==sj) && smell[ni][nj]==0) {
-								f.i = ni;
-								f.j = nj;
-								f.d = nd;
-								f.time=s;
-								map[ni][nj].add(f);
-								added=true;
+								copy[ni][nj].add(new fish(ni, nj, nd));
+								moved = true;
 								break;
 							}
 						}
-						if(!added) map[i][j].add(f);
-					} 
+						if(!moved) copy[i][j].add((new fish(f.i, f.j, f.d)));
+					}
 				}
 			}
 			
@@ -114,11 +98,10 @@ public class Main {
 			for(int i=0; i<3; i++) {
 				si+=sdi[dir2move[i]];
 				sj+=sdj[dir2move[i]];
-				int ms = map[si][sj].size();
+				int ms = copy[si][sj].size();
 				if(ms>0) {
 					smell[si][sj]=3;
-//					map[si][sj] = new LinkedList<>();
-					while(!map[si][sj].isEmpty()) map[si][sj].remove();
+					copy[si][sj].clear();
 				}
 			}
 			
@@ -132,9 +115,7 @@ public class Main {
 			// 복제마법 완성
 			for(int i=0; i<4; i++) {
 				for(int j=0; j<4; j++) {
-					while(!copy[i][j].isEmpty()) {
-						map[i][j].add(copy[i][j].poll());
-					}
+					map[i][j].addAll(copy[i][j]);
 				}
 			}
 		}
@@ -168,7 +149,7 @@ public class Main {
 				if(!v[ni][nj]) {
 					v[ni][nj]=true;
 					dir[cnt]=d;
-					moveShark(ni, nj, cnt+1, fcnt+map[ni][nj].size(),dir);
+					moveShark(ni, nj, cnt+1, fcnt+copy[ni][nj].size(),dir);
 					v[ni][nj]=false;
 				} else {
 					dir[cnt]=d;
