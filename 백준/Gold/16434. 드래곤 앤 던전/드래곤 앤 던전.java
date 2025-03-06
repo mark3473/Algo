@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-// cATK long으로 변환
 public class Main {
     static class Room{
         int type;
@@ -25,7 +24,7 @@ public class Main {
         N = Integer.parseInt(st.nextToken()); // 방 개수
         hATK = Integer.parseInt(st.nextToken()); // 초기 공격력
         long left = 0;
-        long right = 123456000000000001L;
+        long right = 0;
         rooms = new Room[N];
         for(int i=0; i<N; i++){
             st = new StringTokenizer(br.readLine());
@@ -33,14 +32,17 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int h = Integer.parseInt(st.nextToken());
 
+            if(t==1){
+                right+=(long)a * (long)h;
+            }
             rooms[i] = new Room(t, a, h);
         }
 
-        while(left<=right){
+        while(left<right){
             long mid = left+(right-left)/2;
 
             if(check(mid)){ // mid 체력으로 성공하면 더 작은 피로도 확인해보기
-                right = mid-1;
+                right = mid;
             } else { // mid 체력으로 실패하면 더 큰 피로 확인해야함
                 left = mid+1;
             }
@@ -61,11 +63,8 @@ public class Main {
                 cHP-=(turn-1)*rooms[cur].attack; // 내가 공격한 턴 - 1만큼 맞음
                 if(cHP<=0) return false;
             }else{ // 포션방
-                if(cHP>cHP+rooms[cur].hp) cHP = hp;
-                else {
-                    cHP += (long)rooms[cur].hp;
-                    if (cHP > hp) cHP = hp;
-                }
+                cHP+=rooms[cur].hp;
+                if(cHP>hp) cHP = hp;
                 cATK+=rooms[cur].attack;
             }
         }
