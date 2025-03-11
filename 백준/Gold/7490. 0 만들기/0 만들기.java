@@ -12,7 +12,7 @@ public class Main {
         for(int t=0; t<T; t++){
             N = Integer.parseInt(br.readLine());
 
-            comb(2,"1");
+            comb(1,"");
             sb.append("\n");
         }
 
@@ -21,44 +21,42 @@ public class Main {
 
     //
     static void comb(int num, String str){
-        if(num>N){
-            if(cal(str)) sb.append(str).append("\n");
+        if(num==N){
+            cal(str);
             return;
         }
         // 공백
-        comb(num+1, str+' '+num);
+        comb(num+1, str+' ');
         // 더하기
-        comb(num+1,str+'+'+num);
+        comb(num+1,str+'+');
         // 빼기
-        comb(num+1, str+'-'+num);
-  
+        comb(num+1, str+'-');
     }
 
-    static boolean cal(String str){
-        // str 계산하기
-
-        // 1. str에 공백 없애기
-        str  = str.replace(" ", "");
-
-        // 2. str을 +, -를 기준으로 나눠 배열로 만들고
-        //      그것을 stream.map을 통해 Integer로 만들고
-        //      List로 만든 후 원소를 순차적으로 처리할 수 있는 Iterator로 변환.
-        Iterator<Integer> it = Arrays.stream(str.split("[+,-]"))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList()).iterator();
-
-        int result = it.next();
-
-        for(int i=0; i<str.length(); i++){
-            if(str.charAt(i)=='+'){
-                result += it.next();
+    static void cal(String str){
+        int sum = 0;
+        int prev = 1;
+        for(int n=2; n<=N; n++){ // 2부터 N까지의 숫자 다루기
+            if(str.charAt(n-2)=='+'){ // +이면 prev가 가리키는 숫자를 더하기
+                sum+=prev;
+                prev = n; // prev 갱신
             }
-            else if(str.charAt(i)=='-'){
-                result -= it.next();
+            else if(str.charAt(n-2)=='-'){
+                sum+=prev;
+                prev = -n;
+            }
+            else{
+                prev *= 10;
+                prev += prev>0? n:-n;
             }
         }
-
-        if(result==0) return true;
-        else return false;
+        sum+=prev;
+        if(sum==0){
+            sb.append(1);
+            for(int n=2; n<=N; n++){
+                sb.append(str.charAt(n-2)).append(n);
+            }
+            sb.append("\n");
+        }
     }
 }
