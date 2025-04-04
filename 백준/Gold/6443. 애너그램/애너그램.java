@@ -2,47 +2,39 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
-    static char[] arr;
-    static int[] check;
-    static StringBuilder sb;
-    static Stack<Character> s;
-    static Set<String> set;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        StringBuilder result = new StringBuilder();
-        int n = Integer.parseInt(br.readLine());
-        while(n-- > 0) {
-            set = new TreeSet<>();
-            arr = br.readLine().toCharArray();
-            check = new int[26];
-            for(char c : arr) {
-                check[c-'a']++;
+        StringBuilder sb = new StringBuilder();
+        int N = Integer.parseInt(br.readLine());
+        for(int n=0; n<N; n++){
+            Set<String> set = new HashSet<>();
+            String str = br.readLine();
+            int len = str.length();
+            int[] check = new int[26];
+            for(int i=0; i<len; i++){
+                check[str.charAt(i)-'a']++;
             }
-            s = new Stack<>();
-            comb(arr.length);
-            set.stream().forEach(s -> result.append(s).append("\n"));
+
+            fact(set, str,new StringBuilder(), check);
+            set.stream().sorted().forEach(s->sb.append(s).append("\n"));
         }
-        System.out.println(result.toString());
+
+        System.out.println(sb.toString());
     }
 
-    static void comb(int r) {
-        if(r == s.size()) {
-            StringBuilder sb = new StringBuilder();
-            for(char c : s) {
-                sb.append(c);
-            }
+    static void fact(Set<String> set, String str, StringBuilder sb, int[] v){
+        if(sb.length()==str.length()){
             set.add(sb.toString());
+            return;
         }
 
         for(int i=0; i<26; i++){
-            if(check[i] > 0) {
-                check[i]--;
-                s.push((char)(i+'a'));
-                comb(r);
-                s.pop();
-                check[i]++;
+            if(v[i]>0){
+                v[i]-=1;
+                sb.append((char)(i+'a'));
+                fact(set, str, sb, v);
+                sb.deleteCharAt(sb.length()-1);
+                v[i]+=1;
             }
         }
     }
