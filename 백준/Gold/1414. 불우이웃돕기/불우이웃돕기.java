@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static private int INF = Integer.MAX_VALUE;
     static class Node{
         int from;
         int to;
@@ -26,7 +25,7 @@ public class Main {
             String line = br.readLine();
             for(int j=0; j<N; j++){
                 graph[i][j] = change(line.charAt(j));
-                if(graph[i][j]==INF) continue;
+                if(graph[i][j]==0) continue;
                 total+=graph[i][j];
                 pq.add(new Node(i,j,graph[i][j]));
             }
@@ -54,7 +53,7 @@ public class Main {
     }
 
     static int change(char c){
-        if(c=='0') return INF;
+        if(c=='0') return 0;
         else if('a'<=c && c<='z'){
             return c-'a'+1;
         }
