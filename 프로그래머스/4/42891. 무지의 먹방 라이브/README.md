@@ -1,10 +1,10 @@
 # [level 4] 무지의 먹방 라이브 - 42891 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42891#qna) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42891#) 
 
 ### 성능 요약
 
-메모리: 92.4 MB, 시간: 356.76 ms
+메모리: 93.2 MB, 시간: 327.44 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 05월 13일 03:40:45
+2025년 05월 13일 14:58:45
 
 ### 문제 설명
 

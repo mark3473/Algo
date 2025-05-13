@@ -31,15 +31,6 @@ class Solution {
             prev = now;
             cnt--;
         }
-        // long time = 0;
-        // long prev = 0;
-        // int cnt = len;
-        // while(time+(pq.peek().time-prev)*cnt <= k){
-        //     int now = pq.poll().time;
-        //     time += (now-prev)*cnt;
-        //     prev = now;
-        //     cnt--;
-        // }
         
         ArrayList<Food> arr = new ArrayList<>();
         while(!pq.isEmpty()){
