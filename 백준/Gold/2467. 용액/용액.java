@@ -13,7 +13,6 @@ public class Main {
         for(int i=0; i<N; i++){
             liq[i] = Long.parseLong(st.nextToken());
         }
-        Arrays.sort(liq);
 
         int left = 0;
         int right = N-1;
