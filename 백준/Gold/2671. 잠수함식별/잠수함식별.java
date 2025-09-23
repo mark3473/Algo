@@ -41,7 +41,7 @@ public class Main {
                 else if(point==point2+1){
                     q.add(str.substring(0, point));
                 }
-                else if(point2==0){
+                else if(point2==0 /*&& point==1*/){
                     System.out.println("SUBMARINE");
                     return;
                 }
@@ -59,7 +59,7 @@ public class Main {
                 }
 
                 // 그 뒤로 0이 한개만 있거나 쭉 0이 2개 이상 있으면 noise임
-                if(point-point2>2 && point2<0) continue;
+                if(point-point2==1 || (point-point2>2 && point2<0)) continue;
                 // ㅁ
                 else if (point2==0) {
                     System.out.println("SUBMARINE");
