@@ -23,7 +23,7 @@ public class Main {
             System.out.println(0);
             return;
         }
-        
+
         if(K==0) {
             System.out.println(N);
             return;
@@ -66,7 +66,7 @@ public class Main {
         PriorityQueue<History> pq = new PriorityQueue<>((o1, o2)-> o1.time-o2.time);
         pq.add(new History(0, N));
 
-        boolean[] visited = new boolean[200001];
+        boolean[] visited = new boolean[100001];
 
         while(!pq.isEmpty()){
             History cur = pq.poll();
@@ -81,7 +81,7 @@ public class Main {
             if(visited[idx]) continue;
             visited[idx] = true;
 
-            if(idx*2<=200000){
+            if(idx*2<=100000){
                 pq.add(new History(time, idx*2));
             }
 
@@ -89,7 +89,7 @@ public class Main {
                 pq.add(new History(time+1, idx-1));
             }
 
-            if(idx+1<=K){
+            if(idx+1<=100000){
                 pq.add(new History(time+1, idx+1));
             }
         }
