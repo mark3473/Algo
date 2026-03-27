@@ -78,18 +78,17 @@ public class Main {
                 return;
             }
 
-            if(visited[idx]) continue;
             visited[idx] = true;
 
-            if(idx*2<=100000){
+            if(idx*2<=100000 && !visited[idx*2]){
                 pq.add(new History(time, idx*2));
             }
 
-            if(idx>0) {
+            if(idx>0 && !visited[idx-1]) {
                 pq.add(new History(time+1, idx-1));
             }
 
-            if(idx+1<=100000){
+            if(idx+1<=100000 && !visited[idx+1]){
                 pq.add(new History(time+1, idx+1));
             }
         }
