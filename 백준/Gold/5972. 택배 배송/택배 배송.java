@@ -33,15 +33,15 @@ public class Main {
 
         int[] minD = new int[N];
         for(int i=1; i<N; i++) minD[i] = Integer.MAX_VALUE;
-        Queue<Integer> q = new LinkedList<>();
-        q.add(0);
-        while(!q.isEmpty()){
-            int cur = q.poll();
+        PriorityQueue<Node> pq = new PriorityQueue<>((o1,o2)->o1.cow-o2.cow);
+        pq.add(new Node(0, 0));
+        while(!pq.isEmpty()){
+            Node cur = pq.poll();
 
-            for(Node next : graph[cur]){
-                if(minD[cur]+next.cow < minD[next.idx]){
-                    minD[next.idx] = minD[cur]+next.cow;
-                    q.add(next.idx);
+            for(Node next : graph[cur.idx]){
+                if(minD[cur.idx]+next.cow < minD[next.idx]){
+                    minD[next.idx] = minD[cur.idx]+next.cow;
+                    pq.add(new Node(next.idx, minD[next.idx]));
                 }
             }
         }
