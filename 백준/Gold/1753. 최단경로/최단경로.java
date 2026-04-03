@@ -39,10 +39,13 @@ public class Main {
         Arrays.fill(minDist, MAX);
         minDist[K] = 0;
 
+        boolean[] visited = new boolean[V];
         PriorityQueue<Node> pq = new PriorityQueue<>((o1,o2)->o1.weight-o2.weight);
         pq.add(new Node(K, 0));
         while(!pq.isEmpty()){
             Node cur = pq.poll(); // 시작점에서 cur.idx까지 연결됐을 때 사용된 경로값 = cur.weight
+            if(visited[cur.idx]) continue;
+            visited[cur.idx] = true;
 
             for(Node next : graph[cur.idx]){
                 if(minDist[next.idx] > minDist[cur.idx] + next.weight){
