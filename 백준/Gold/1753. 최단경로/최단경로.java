@@ -2,13 +2,18 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class Node{
+    static class Node implements Comparable<Node>{
         int idx;
         int weight;
 
         Node(int i, int w){
             this.idx = i;
             this.weight = w;
+        }
+
+        @Override
+        public int compareTo(Node o){
+            return this.weight-o.weight;
         }
     }
 
@@ -40,7 +45,7 @@ public class Main {
         minDist[K] = 0;
 
         boolean[] visited = new boolean[V];
-        PriorityQueue<Node> pq = new PriorityQueue<>((o1,o2)->o1.weight-o2.weight);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
         pq.add(new Node(K, 0));
         while(!pq.isEmpty()){
             Node cur = pq.poll(); // 시작점에서 cur.idx까지 연결됐을 때 사용된 경로값 = cur.weight
