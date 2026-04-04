@@ -29,9 +29,10 @@ public class Main {
 
         ArrayList<Integer> ans = new ArrayList<>();
 
+        StringBuilder sb = new StringBuilder();
         while(!q.isEmpty()){
             int cur = q.poll();
-            if(wayIn[cur]==0) ans.add(cur);
+            sb.append(cur).append(" ");
 
             for(int next : students[cur]){
                 wayIn[next]--;
@@ -39,8 +40,6 @@ public class Main {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
-        for(int s : ans) sb.append(s).append(" ");
         System.out.println(sb);
     }
 }
