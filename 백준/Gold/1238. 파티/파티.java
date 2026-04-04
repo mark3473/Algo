@@ -38,7 +38,6 @@ public class Main {
         for(int start=1; start<=N; start++){
             if(start==X) continue;
 
-            boolean[] visited = new boolean[N+1];
             PriorityQueue<Node> pq = new PriorityQueue<>();
             int[] minDist = new int[N+1];
             Arrays.fill(minDist, Integer.MAX_VALUE);
@@ -47,8 +46,7 @@ public class Main {
             while(!pq.isEmpty()){
                 Node cur = pq.poll();
                 if(cur.idx == X) break;
-                if(visited[cur.idx]) continue;
-                visited[cur.idx] = true;
+                if(cur.time > minDist[cur.idx]) continue;
 
                 for(Node next : graph[cur.idx]){
                     int dist = next.time + cur.time;
