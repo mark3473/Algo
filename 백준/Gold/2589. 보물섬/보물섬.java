@@ -23,18 +23,20 @@ public class Main {
                     Queue<int[]> q = new LinkedList<>();
                     q.add(new int[] {i,j,0});
                     boolean[][] v = new boolean[N][M];
-                    while(!q.isEmpty()){
+                    v[i][j] = true;
+
+                    while (!q.isEmpty()) {
                         int[] cur = q.poll();
-                        if(v[cur[0]][cur[1]]) continue;
-                        v[cur[0]][cur[1]] = true;
                         ans = Math.max(ans, cur[2]);
 
-                        for(int d=0; d<4; d++){
-                            int ni = cur[0]+di[d];
-                            int nj = cur[1]+dj[d];
+                        for (int d = 0; d < 4; d++) {
+                            int ni = cur[0] + di[d];
+                            int nj = cur[1] + dj[d];
 
-                            if(0<=ni&&ni<N && 0<=nj&&nj<M && map[ni].charAt(nj)=='L'){
-                                q.add(new int[] {ni, nj, cur[2]+1});
+                            if (0 <= ni && ni < N && 0 <= nj && nj < M
+                                    && map[ni].charAt(nj) == 'L' && !v[ni][nj]) {
+                                v[ni][nj] = true;
+                                q.add(new int[]{ni, nj, cur[2] + 1});
                             }
                         }
                     }
