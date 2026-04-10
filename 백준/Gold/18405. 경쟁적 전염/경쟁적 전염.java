@@ -23,7 +23,7 @@ public class Main {
         }
 
         public int compareTo(Virus o){
-            return this.num-o.num;
+            return (this.time-o.time)==0? this.num-o.num : this.time-o.time;
         }
     }
 
@@ -36,18 +36,14 @@ public class Main {
         int K = Integer.parseInt(st.nextToken()); // 바이러스 수 (1~K번)
 
         int[][] map = new int[N][N];
-        ArrayList<Virus> arr = new ArrayList<>();
-        Queue<Virus> pq = new LinkedList<>();
+        PriorityQueue<Virus> pq = new PriorityQueue<>();
         for(int i=0; i<N; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=0; j<N; j++){
                 map[i][j] = Integer.parseInt(st.nextToken());
-                if(map[i][j]!=0) arr.add(new Virus(i, j, map[i][j]));
+                if(map[i][j]!=0) pq.add(new Virus(i, j, map[i][j]));
             }
         }
-
-        Collections.sort(arr);
-        for(Virus v : arr) pq.add(v);
 
         st = new StringTokenizer(br.readLine());
         int S = Integer.parseInt(st.nextToken()); //s초 뒤
