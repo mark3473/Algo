@@ -15,23 +15,19 @@ class Solution {
         int p3 = 0; // 현재 확인 중인 범위의 idx
         for(int i=0; i<words.length; i++){
             p2 = message.indexOf(words[i], p1) + words[i].length()-1; // 이번 단어를 읽은 후의 idx
-            // System.out.println("이번 단어 : "+words[i]+" 인덱스 : "+ p1 + " ~ "+p2);
             
             while(((p3+1)<spoiler_ranges.length) && (p2>=spoiler_ranges[p3+1][0])){
                     p3++;
             }
             
             int[] range = spoiler_ranges[p3];
-            // System.out.println("구간 번호 : "+p3);
             // 단어가 범위에 포함되지 않을 때는 단어를 저장하고 다음 단어 탐색 
             if(p2<range[0] || p1>range[1]){
-                // System.out.println("미포함");
                 visibleWords.add(words[i]);
             }
             else{
                 // 이번 단어가 범위에 포함되어 있다면
                 // 다음 범위에도 이번 단어가 포함되어 있는지 확인
-                // System.out.println("포함");
                 while(((p3+1)<spoiler_ranges.length) && (p2>=spoiler_ranges[p3+1][0])){
                     p3++; // p3 : 단어가 포함된 가장 마지막 스포 방지 구간
                 }
@@ -48,7 +44,6 @@ class Solution {
         while(!spoilerWords.isEmpty()){
             String word = spoilerWords.poll();
             if(!visibleWords.contains(word)){
-                // System.out.println(word);
                 answer++;
                 visibleWords.add(word);
             }
