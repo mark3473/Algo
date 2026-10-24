@@ -15,10 +15,10 @@ class Solution {
             graph[e[1]].add(e[0]);
         }
         
-        boolean[][] visited = new boolean[len+1][1<<(len+1)];
+        boolean[][] visited = new boolean[len+1][1<<len];
         
         Queue<State> q = new ArrayDeque<>();
-        q.add(new State(0, 1, 0, (1<<len) | (1<<0)));
+        q.add(new State(0, 1, 0, 1<<0));
         
         int answer = 0;
         
